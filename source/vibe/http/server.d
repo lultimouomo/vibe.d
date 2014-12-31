@@ -698,6 +698,13 @@ final class HTTPServerRequest : HTTPRequest {
 			Remarks: Requires the HTTPServerOption.parseCookies option.
 		*/
 		Session session;
+
+		/** The settings of the server serving this request.
+		 */
+		@property const(HTTPServerSettings) serverSettings() const
+		{
+			return m_settings;
+		}
 	}
 
 
