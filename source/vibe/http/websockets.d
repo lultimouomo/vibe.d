@@ -101,14 +101,11 @@ void doHandleWebsocket(WebSocketHandshakeDelegate on_handshake, HTTPServerReques
 	res.headers["Connection"] = "Upgrade";
 	ConnectionStream conn = res.switchProtocol("websocket");
 
-	scope socket = new WebSocket(conn, req);
-	try on_handshake(socket);
-	catch (Exception e) {
+	WebSocket socket = new WebSocket(conn, req);
+	try {
+		on_handshake(socket);
+	} catch (Exception e) {
 		logDiagnostic("WebSocket handler failed: %s", e.msg);
-	} catch (Throwable th) {
-		// pretend to have sent a closing frame so that any further sends will fail
-		socket.m_sentCloseFrame = true;
-		throw th;
 	}
 	socket.close();
 }
